@@ -1,0 +1,25 @@
+name: Run Bark Notifier every 15 min
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'  # 每15分钟执行一次
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: pip install yfinance requests
+
+      - name: Run Bark Script
+        run: python notify.py
